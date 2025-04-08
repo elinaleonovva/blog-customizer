@@ -1,10 +1,9 @@
 import { useState, useRef } from 'react';
 import type { MouseEventHandler } from 'react';
 import clsx from 'clsx';
-import { OptionType } from '../../../src/constants/articleProps';
-import { Text } from '../../components/text';
-import { Spacing } from '../../components/spacing';
-import arrowDown from '../../../src/images/arrow-down.svg';
+import { OptionType } from 'src/constants/articleProps';
+import { Text } from 'components/text';
+import arrowDown from 'src/images/arrow-down.svg';
 import { Option } from './Option';
 import { isFontFamilyClass } from './helpers/isFontFamilyClass';
 import { useEnterSubmit } from './hooks/useEnterSubmit';
@@ -43,26 +42,17 @@ export const Select = (props: SelectProps) => {
 		setIsOpen(false);
 		onChange?.(option);
 	};
-
 	const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
 		setIsOpen((isOpen) => !isOpen);
 	};
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		if (event.key === ' ') {
-			event.preventDefault();
-			setIsOpen((prev) => !prev);
-		}
-	};
-
 	return (
-		<div>
+		<div className={styles.container}>
 			{title && (
 				<>
 					<Text size={12} weight={800} uppercase>
 						{title}
 					</Text>
-					<Spacing size={4} />
 				</>
 			)}
 			<div
@@ -84,10 +74,8 @@ export const Select = (props: SelectProps) => {
 					data-selected={!!selected?.value}
 					onClick={handlePlaceHolderClick}
 					role='button'
-					aria-label='Открыть/закрыть выпадающий список'
 					tabIndex={0}
-					ref={placeholderRef}
-					onKeyDown={handleKeyDown}>
+					ref={placeholderRef}>
 					<Text
 						family={
 							isFontFamilyClass(selected?.className)
@@ -99,16 +87,14 @@ export const Select = (props: SelectProps) => {
 				</div>
 				{isOpen && (
 					<ul className={styles.select} data-testid='selectDropdown'>
-						{options
-							.filter((option) => selected?.value !== option.value)
-							.map((option) => (
-								<Option
-									selectedValue={selected?.value || ''}
-									key={option.value}
-									option={option}
-									onClick={() => handleOptionClick(option)}
-								/>
-							))}
+						{options.map((option) => (
+							<Option
+								key={option.value}
+								option={option}
+								onClick={() => handleOptionClick(option)}
+								isUnavailable={option.value === selected?.value || option.available === false}
+							/>
+						))}
 					</ul>
 				)}
 			</div>

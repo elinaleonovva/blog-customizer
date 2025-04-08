@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { OptionType } from '../../../../src/constants/articleProps';
+import { OptionType } from 'src/constants/articleProps';
 
 type UseEnterOptionSubmit = {
 	onClick: (value: OptionType['value']) => void;
@@ -25,5 +25,5 @@ export const useEnterOptionSubmit = ({
 		return () => {
 			option.removeEventListener('keydown', handleEnterKeyDown);
 		};
-	}, [value, onClick]);
+	}, [value, onClick, optionRef]);
 };

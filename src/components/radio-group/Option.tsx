@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { OptionType } from '../../../src/constants/articleProps';
-import { Text } from '../../components/text';
+import { OptionType } from 'src/constants/articleProps';
+import { Text } from 'components/text';
 import { useEnterSubmit } from './hooks/useEnterSubmit';
 
 import styles from './RadioGroup.module.scss';
@@ -21,23 +21,13 @@ export const Option = (props: OptionProps) => {
 
 	const handleChange = () => onChange?.(option);
 
-	useEnterSubmit({ onChange, option, optionRef });
+	useEnterSubmit({ onChange, option });
 
 	const inputId = `${groupName}_radio_item_with_value__${value}`;
 	const isChecked = value === selected.title;
 
-	const handleKeyDown = (event: React.KeyboardEvent) => {
-		if (event.key === ' ') {
-			event.preventDefault();
-			handleChange();
-		}
-	};
-
 	return (
 		<div
-			role='button'
-			aria-label={`изменить размер шрифта на ${value}`}
-			onKeyDown={handleKeyDown}
 			className={styles.item}
 			key={value}
 			data-checked={isChecked}
